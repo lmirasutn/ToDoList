@@ -1,28 +1,47 @@
+/*
+Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+*/
 package cmd
 
 import (
 	"ToDoList/internal"
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
+	"strconv"
+
+	"github.com/spf13/cobra"
 )
 
-func Complete(index int, tasks []internal.Task) {
-	if index > len(tasks) && index > 0 {
-		log.Fatal(" ERROR COMPLETE, No existe esa tarea")
-	}
-	tasks[index-1].Completed = true
+// completeCmd represents the complete command
+var completeCmd = &cobra.Command{
+	Use:   "complete",
+	Short: "Completar una tarea",
+	Run: func(cmd *cobra.Command, args []string) {
+		tarea, err := internal.CargarTareas("tasks.json")
+		if err != nil {
+			fmt.Printf("ha ocurrido un error")
+			return
+		}
+		idTarea := args[0]
+		// Convertir el segundo argumento a número
+		id, err := strconv.Atoi(idTarea)
+		if err != nil {
+			fmt.Printf("Error: el segundo argumento debe ser un número entero (recibido: '%s')\n", idTarea)
+			return
+		}
+		internal.Complete(id, tarea)
+	},
+}
 
-	data, err := json.MarshalIndent(tasks, "", " ") // basicamente, vuelvo a escribir el archivo, ahora sin el elemento eliminado.
+func init() {
+	rootCmd.AddCommand(completeCmd)
 
-	if err != nil {
-		fmt.Errorf("Error en la decodificacion de json")
+	// Here you will define your flags and configuration settings.
 
-	}
-	err = os.WriteFile("tasks.json", data, 0644)
-	if err != nil {
-		fmt.Errorf("Error en la decodificacion de json")
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// completeCmd.PersistentFlags().String("foo", "", "A help for foo")
 
-	}
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// completeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

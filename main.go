@@ -1,26 +1,14 @@
 package main
 
 import (
-	"ToDoList/cmd" // Asegúrate de que el módulo es correcto
-	"ToDoList/internal"
-	"log"
+	"ToDoList/cmd" // Asegúrate de que el import tenga el nombre correcto del módulo
+	"fmt"
+	"os"
 )
 
 func main() {
-
-	tarea, err := internal.CargarDatos("tasks.json")
-	if err != nil {
-		log.Fatalf("Error cargando tareas: %v", err)
+	if err := cmd.Execute(); err != nil {
+		fmt.Println("Error ejecutando el programa:", err)
+		os.Exit(1)
 	}
-	/* Ejemplo 1 - Tarea simple
-	 */
-	tarea, err = cmd.Add(tarea, "Comprar leche", "2023-05-01")
-	if err != nil {
-		log.Print(err)
-	}
-
-	cmd.List(tarea)
-	//tarea = cmd.Delete(0, tarea)
-	cmd.Complete(12, tarea)
-	cmd.List(tarea)
 }

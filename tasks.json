@@ -1,80 +1,32 @@
 [
  {
   "id": 1,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
+  "description": "Preparar sanguche",
+  "due_date": "07/04/2025",
+  "completed": true
  },
  {
   "id": 2,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
+  "description": "Preparar otro",
+  "due_date": "07/04/2025",
   "completed": false
  },
  {
   "id": 3,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 4,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 5,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 6,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 7,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 8,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 9,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 10,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 11,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
-  "completed": false
- },
- {
-  "id": 12,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
+  "description": "Preparar otro",
+  "due_date": "09/04/2025",
   "completed": true
  },
  {
-  "id": 13,
-  "description": "Comprar leche",
-  "due_date": "2023-05-01",
+  "id": 4,
+  "description": "Preparar otro",
+  "due_date": "09/04/2025",
+  "completed": true
+ },
+ {
+  "id": 5,
+  "description": "Preparar final de AM1",
+  "due_date": "04/05/2025",
   "completed": false
  }
 ]
