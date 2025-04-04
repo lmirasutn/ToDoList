@@ -3,7 +3,11 @@ package internal
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
+
+	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
 )
 
 type Task struct {
@@ -43,13 +47,19 @@ func Complete(index int, tasks []Task) {
 	GuardarTareas("tasks.json", tasks)
 }
 
-func Delete(index int, tasks []Task) ([]Task, error) {
-	if len(tasks) < index {
-
-		return nil, fmt.Errorf("no existe tal indice %v", index)
-
+func Delete(idTarea int, tasks []Task) ([]Task, error) {
+	indexFound := -1
+	for i := 0; i < len(tasks); i++ {
+		if tasks[i].ID == idTarea {
+			indexFound = i
+			break
+		}
 	}
-	tasks = append(tasks[:index], tasks[index+1:]...)
+	if indexFound >= 0 {
+		tasks = append(tasks[:indexFound], tasks[indexFound+1:]...)
+	} else {
+		return nil, fmt.Errorf("no existe esa tarea")
+	}
 	// los 3 puntos se usan porque no estamos agregando un elemento, sino que estamos agregando una sublista
 
 	GuardarTareas("tasks.json", tasks)
@@ -58,21 +68,57 @@ func Delete(index int, tasks []Task) ([]Task, error) {
 
 }
 
-func List(lista []Task) {
+func DeleteAllTasks(tasks []Task) error {
+	tasks = []Task{}
+	GuardarTareas("tasks.json", tasks)
 
-	for i := 0; i < len(lista); i++ {
-		fmt.Println("Tarea:", lista[i].ID)
-		fmt.Println("Descripcion:", lista[i].Description)
-		fmt.Println("Fecha de vencimiento:", lista[i].DueDate)
+	return nil
 
-		if lista[i].Completed {
-			fmt.Println("Estado: Finalizada")
-		} else {
-			fmt.Println("Estado: Pendiente")
+}
+
+func DeleteCompletedTasks(tasks []Task) ([]Task, error) {
+	// Crear un nuevo slice solo con tareas NO completadas
+	var newTasks []Task
+	for _, task := range tasks {
+		if !task.Completed {
+			newTasks = append(newTasks, task)
 		}
-		fmt.Println("-----------------------")
 	}
 
+	// Guardar los cambios en el archivo
+	err := GuardarTareas("tasks.json", newTasks)
+	if err != nil {
+		return nil, err
+	}
+
+	return newTasks, nil
+}
+func List(lista []Task) {
+	if len(lista) == 0 {
+		color.Yellow("No hay tareas para mostrar.")
+		return
+	}
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"ID", "Descripción", "Estado", "Fecha Límite"})
+
+	for _, task := range lista {
+		estado := color.YellowString("Pendiente")
+		if task.Completed {
+			estado = color.GreenString("Finalizada")
+		}
+
+		table.Append([]string{
+			fmt.Sprintf("%d", task.ID),
+			task.Description,
+			estado,
+			task.DueDate,
+		})
+	}
+
+	table.SetBorder(true)
+	table.SetRowLine(true)
+	table.Render()
 }
 
 func configurarFecha(num int) string {

@@ -1,32 +1,14 @@
 [
  {
   "id": 1,
-  "description": "Preparar sanguche",
-  "due_date": "07/04/2025",
-  "completed": true
- },
- {
-  "id": 2,
-  "description": "Preparar otro",
-  "due_date": "07/04/2025",
+  "description": "Comprar lechuga",
+  "due_date": "08/07/2025",
   "completed": false
  },
  {
-  "id": 3,
-  "description": "Preparar otro",
-  "due_date": "09/04/2025",
-  "completed": true
- },
- {
-  "id": 4,
-  "description": "Preparar otro",
-  "due_date": "09/04/2025",
-  "completed": true
- },
- {
   "id": 5,
-  "description": "Preparar final de AM1",
-  "due_date": "04/05/2025",
+  "description": "Comprar lechuga",
+  "due_date": "08/07/2025",
   "completed": false
  }
 ]

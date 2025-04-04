@@ -1,39 +1,67 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 NAME HERE lmiras@frba.utn.edu.ar
 */
 package cmd
 
 import (
+	"ToDoList/internal"
 	"fmt"
+	"strconv"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
-// deleteCmd represents the delete command
+var (
+	deleteAll       bool
+	deleteCompleted bool
+	deletePending   bool
+)
 var deleteCmd = &cobra.Command{
-	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "delete [id]",
+	Short: "Eliminar una tarea",
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		tarea, err := internal.CargarTareas("tasks.json")
+		if err != nil {
+			color.Red("ha ocurrido un error")
+			return
+		}
+		if deleteAll {
+			internal.DeleteAllTasks(tarea)
+			color.Green("Todas las tareas han sido eliminadas correctamente.")
+			return
+		}
+
+		if deleteCompleted {
+			internal.DeleteCompletedTasks(tarea)
+			color.Green("Las tareas completadas han sido eliminadas correctamente.")
+			return
+		}
+
+		// Si se pasó un ID como argumento
+		if len(args) == 1 {
+			idTarea := args[0]
+
+			id, err := strconv.Atoi(idTarea)
+			if err != nil {
+				fmt.Printf("Error: el segundo argumento debe ser un número entero (recibido: '%s')\n", idTarea)
+				return
+			}
+			tarea, err = internal.Delete(id, tarea)
+			if err != nil {
+				color.Red("No existe esa tarea")
+			} else {
+				color.Yellow("Tarea %v eliminada", id)
+			}
+		} else {
+			fmt.Println("Debe proporcionar un ID o una bandera (--all, --completed)")
+		}
 	},
 }
 
 func init() {
+	deleteCmd.Flags().BoolVar(&deleteAll, "all", false, "Eliminar todas las tareas")
+	deleteCmd.Flags().BoolVar(&deleteCompleted, "completed", false, "Eliminar tareas completadas")
 	rootCmd.AddCommand(deleteCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// deleteCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

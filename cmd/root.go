@@ -6,6 +6,7 @@ import (
 
 // Definir el comando raíz
 var rootCmd = &cobra.Command{
+
 	Use:   "ToDoList",
 	Short: "Una aplicación de lista de tareas en Go",
 	Long:  "ToDoList es una aplicación CLI para gestionar tareas de manera sencilla.",
@@ -13,5 +14,6 @@ var rootCmd = &cobra.Command{
 
 // Ejecutar el comando raíz y devolver error
 func Execute() error {
+
 	return rootCmd.Execute()
 }
