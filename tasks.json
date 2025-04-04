@@ -1,14 +1,9 @@
 [
  {
   "id": 1,
-  "description": "Comprar lechuga",
-  "due_date": "08/07/2025",
-  "completed": false
- },
- {
-  "id": 5,
-  "description": "Comprar lechuga",
+  "description": "Aprendiendo Go!",
   "due_date": "08/07/2025",
   "completed": false
  }
+ 
 ]
