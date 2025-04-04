@@ -16,6 +16,10 @@ var addCmd = &cobra.Command{
 	Use:   "add <desc> <diasVenc>",
 	Short: "Agrega una tarea",
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			color.Red("ERROR: No se detectaron parametros ingresados.")
+			return
+		}
 		tarea, err := internal.CargarTareas("tasks.json")
 		if err != nil {
 			color.Red("error al cargar tareas")
